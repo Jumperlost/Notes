@@ -12,7 +12,10 @@ function displayNotes() {
 
   notes.forEach((note, index) => {
     const li = document.createElement("li");
-    li.textContent = note;
+    const noteText = document.createElement("span");
+    noteText.textContent = note;
+    noteText.addEventListener("click", () => editText(noteText, index));
+    li.appendChild(noteText);
     const deleteBtn = document.createElement("button");
     deleteBtn.textContent = "Delete";
     deleteBtn.addEventListener("click", () => deleteNote(index));
@@ -30,6 +33,16 @@ function addNote() {
     saveNotes(notes);
     displayNotes();
     noteInput.value = "";
+  }
+}
+
+function editText(noteText, index) {
+  const newText = prompt("New text", noteText.textContent);
+  if (newText !== null) {
+    const notes = getNotes();
+    notes[index] = newText.trim();
+    saveNotes(notes);
+    displayNotes();
   }
 }
 
